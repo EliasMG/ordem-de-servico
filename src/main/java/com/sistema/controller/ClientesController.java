@@ -19,6 +19,7 @@ import com.sistema.controller.page.PageWrapper;
 import com.sistema.model.Cliente;
 import com.sistema.model.TipoPessoa;
 import com.sistema.repository.Clientes;
+import com.sistema.repository.Estados;
 import com.sistema.repository.filter.ClienteFilter;
 import com.sistema.service.CadastroClienteService;
 
@@ -32,10 +33,14 @@ public class ClientesController {
 	@Autowired
 	private Clientes clientes;
 	
+	@Autowired
+	private Estados estados;
+	
 	@GetMapping("/novo")
 	public ModelAndView novo(Cliente cliente) {
 		ModelAndView mv = new ModelAndView("cliente/CadastroCliente");
 		mv.addObject("tiposPessoa", TipoPessoa.values());
+		mv.addObject("estados", estados.findAll());
 		return mv;
 	}
 	

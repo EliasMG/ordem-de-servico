@@ -111,13 +111,24 @@
 				
 				<div class="form-group  col-sm-4">
 					<label for="estado">Estado</label>
-					<input type="text" id="estado" class="form-control" th:field="*{endereco.cidade.estado.sigla}"/>
+					<select id="estado" class="form-control">
+	                    <option value="">Selecione o estado</option>
+	                    <option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">Ceará</option>
+	                </select>
 				</div>
 				
 				<div class="form-group  col-sm-4">
 					<label  for="cidade">Cidade</label>
-					<input type="hidden" id="codigoCidade" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}"/>
-					<input type="text" id="cidade" class="form-control" th:field="*{endereco.cidade.nome}"/>
+					<div class="os-field-action">
+						<input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}"/>
+						<select id="cidade" class="form-control" th:data-url="@{/cidades}" th:field="*{endereco.cidade}">
+							<option value="">Selecione a cidade</option>
+						</select>
+						
+						<div class="os-field-action__icon js-img-loading" style="display: none">
+							<img alt="Gif Loading" th:src="@{/images/mini-loading.gif}">
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -128,7 +139,7 @@
 
 <th:block layout:fragment="javascript-extra">
 		<script th:src="@{/javascripts/cliente.mascara-cpf-cnpj.js}"></script>
-		<!-- <script th:src="@{/javascripts/cliente.combo-estado-cidade.js}"></script> -->
+		<script th:src="@{/javascripts/cliente.combo-estado-cidade.js}"></script>
 		<script th:src="@{/javascripts/cep-consulta.js}"></script>
 </th:block>
 
