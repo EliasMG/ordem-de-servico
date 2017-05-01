@@ -49,7 +49,7 @@ public class ClientesController {
 		if (result.hasErrors()) {
 			return novo(cliente);
 		}
-		cadastroClienteService.salvar(cliente);
+		//cadastroClienteService.salvar(cliente);
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso");
 		
 		return new ModelAndView("redirect:/clientes/novo");
