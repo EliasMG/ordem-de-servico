@@ -22,6 +22,7 @@ import com.sistema.repository.Clientes;
 import com.sistema.repository.Estados;
 import com.sistema.repository.filter.ClienteFilter;
 import com.sistema.service.CadastroClienteService;
+import com.sistema.service.exception.CpfCnpfClienteJaCadastradoException;
 
 @Controller
 @RequestMapping("/clientes")
@@ -49,9 +50,15 @@ public class ClientesController {
 		if (result.hasErrors()) {
 			return novo(cliente);
 		}
-		//cadastroClienteService.salvar(cliente);
-		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso");
 		
+		try {
+			cadastroClienteService.salvar(cliente);
+		} catch (CpfCnpfClienteJaCadastradoException e) {
+			result.rejectValue("cpfOuCnpj", e.getMessage(), e.getMessage());
+			return novo(cliente);
+		}
+		
+		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso");
 		return new ModelAndView("redirect:/clientes/novo");
 	}
 	
